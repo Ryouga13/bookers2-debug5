@@ -22,20 +22,30 @@
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <% else %>
-            <td>コメント件数：<%= @book.book_comments.count %></td>
+            <td />
             <td />
           <% end %>
+          <td>コメント件数：<%= @book.book_comments.count %></td>
        </tr></table>
       
 <table>
- <tr>
-  <td><% @book.book_comments.each do |book_comment| %>
+ 
+  <% @book.book_comments.each do |book_comment| %>
+    <tr>
+    <td><%= link_to(book_comment.user) do %>
     <%= image_tag book_comment.user.get_profile_image, size:"80x80" %>
     <br />
     <%= book_comment.user.name %></td>
-    <td><%= book_comment.comment %>
-    </td>
-  <% end %></tr>
+    <% end %>
+    <td><%= book_comment.comment %></td>
+    <% if book_comment.user == current_user %>
+    <td><%= link_to 'Destroy', book_book_comment_path(book_comment.book,book_comment), method: :delete,  data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
+          <% else %>
+          <td />
+          <% end %>
+    
+    </tr>
+  <% end %>
 </table>
 
 
